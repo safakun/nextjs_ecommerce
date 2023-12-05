@@ -2,7 +2,7 @@
 
 https://www.youtube.com/watch?v=K4ziF0MhbLc 
 
-27 mins
+39 mins
 
 install app
 ```bash
@@ -47,8 +47,27 @@ strings from off to on
 
 configue daisyui in tailwind.config.js 
 
+Launch MongoDB via docker compose
+```bash
+sudo docker compose up
+```
 
+Initiate Prisma:
+```bash
+npx prisma init 
+```
 
+add to .env file 
+```javascript
+DATABASE_URL="mongodb://root:rootpassword@localhost:27017/?authMechanism=DEFAULT&directConnection=true"
+```
+
+add .env to .gitignore
+
+```bash
+npx prisma db pull 
+```
+ошибка
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
