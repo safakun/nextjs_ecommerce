@@ -2,7 +2,7 @@
 
 https://www.youtube.com/watch?v=K4ziF0MhbLc 
 
-39 mins
+1 h 15 mins
 
 install app
 ```bash
@@ -59,7 +59,7 @@ npx prisma init
 
 add to .env file 
 ```javascript
-DATABASE_URL="mongodb://root:rootpassword@localhost:27017/?authMechanism=DEFAULT&directConnection=true"
+DATABASE_URL="mongodb://root:rootpassword@localhost:27017/local?authSource=admin"
 ```
 
 add .env to .gitignore
@@ -77,7 +77,49 @@ npx prisma generate
 IF you change the prisma database structure, need to recreate client with command:
 ```bash
 npx prisma generate
+``` 
+
+https://github.com/prisma/prisma/discussions/18958 
+
+
+Create local replica set
+Create docker network for replicate set
+docker network create mongoCluster
+
+Create replica set
+1.docker run -d -p 27017:27017 --name mongo1 --network mongoCluster mongo:4.4.13 mongod --replSet myReplicaSetName --bind_ip localhost,mongo1
+2. docker run -d -p 27018:27017 --name mongo2 --network mongoCluster mongo:4.4.13 mongod --replSet myReplicaSetName --bind_ip localhost,mongo2
+3. docker run -d -p 27019:27017 --name mongo3 --network mongoCluster mongo:4.4.13 mongod --replSet myReplicaSetName --bind_ip localhost,mongo3
+
+Initiate replicate set
+docker exec -it mongo1 mongosh --eval "rs.initiate({_id: \"myReplicaSetName\", members: [{_id: 0, host: \"mongo1\"}, {_id: 1, host: \"mongo2\"}, {_id: 2, host: \"mongo3\"}]})"
+
+Update /etc/host to include links for mong1, mongo2, mongo3
+Edit /etc/host and append the following:
+
+127.0.0.1 mongo1
+127.0.0.1 mongo2
+127.0.0.1 mongo3
+Check status
+You can run 
+```bash
+docker exec -it mongo1 mongosh --eval "rs.status()
 ```
+ and it should return something like the following:
+
+
+
+Connect
+Connect through one of the following:
+
+```bash
+mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=myReplicaSetName
+mongodb://localhost:27017,localhost:27018,localhost:27019/my-database-name?replicaSet=myReplicaSetName 
+```
+
+
+FREE IMAGES
+unslpash.com
 
 
 ### NextJs server actions
