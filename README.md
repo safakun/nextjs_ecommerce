@@ -74,7 +74,18 @@ npx prisma db push
 npx prisma generate
 ```
 
-ошибка
+IF you change the prisma database structure, need to recreate client with command:
+```bash
+npx prisma generate
+```
+
+
+### NextJs server actions
+https://nextjs.org/docs/app/api-reference/functions/server-actions 
+
+
+
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
