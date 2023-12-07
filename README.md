@@ -67,6 +67,13 @@ add .env to .gitignore
 ```bash
 npx prisma db pull 
 ```
+
+```bash
+npx prisma db push
+
+npx prisma generate
+```
+
 ошибка
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
